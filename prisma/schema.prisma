@@ -25,7 +25,7 @@ model User {
   password           String
   username           String
   createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
+  updatedAt          DateTime  @updatedAt @default(now())
   accounts           Account[]
   categories         Category[]
   transactions       Transaction[]
@@ -41,7 +41,7 @@ model Account {
   user        User           @relation(fields: [userId], references: [id])
   userId      String
   createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  updatedAt   DateTime       @updatedAt @default(now())
 
   transactions Transaction[]
   goals        Goal[]
@@ -76,7 +76,7 @@ model Transaction {
   goal        Goal?         @relation(fields: [goalId], references: [id])
   goalId      String?
   createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  updatedAt   DateTime      @updatedAt @default(now())
 
   @@index([date])
   @@index([amount])
@@ -94,7 +94,7 @@ model Goal {
   user          User     @relation(fields: [userId], references: [id])
   userId        String
   createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  updatedAt     DateTime @updatedAt @default(now())
 
   contributions Transaction[]
 }
