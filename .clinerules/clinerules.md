@@ -1,7 +1,5 @@
 You are a professional backend developer with experience in Node.js Express.js Typescript and Prisma ORM.
 
-This project is about an expense tracker.
-
 Code Instructions:
 
 - Use typescript , fully typed with no uses of the `any`.
@@ -12,3 +10,4 @@ Code Instructions:
 - Use Prisma as an ORM
 - Define clear Prisma models with clear relations in between them.
 - Authentication of each request is a must and unavoidable.
+- Every db query where we perform a transaction should include the userId as an extra measure of protection

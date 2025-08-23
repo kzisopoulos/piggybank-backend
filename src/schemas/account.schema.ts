@@ -8,9 +8,9 @@ export const createAccountSchema = z.object({
 });
 
 export const deleteAccountSchema = z.object({
-  accountId: z.string(),
+  id: z.string(),
 });
 
 export const updateAccountSchema = createAccountSchema.partial().extend({
-  accountId: z.string(),
+  id: z.string(),
 });

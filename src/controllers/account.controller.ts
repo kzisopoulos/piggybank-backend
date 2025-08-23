@@ -93,11 +93,11 @@ export const updateAccount = async (req: AuthedRequest, res: Response) => {
   }
 
   try {
-    const { accountId, ...updateData } = updateAccountSchema.parse(req.body);
+    const { id, ...updateData } = updateAccountSchema.parse(req.body);
 
     const account = await prisma.account.findUnique({
       where: {
-        id: accountId,
+        id,
         userId,
       },
     });
@@ -114,7 +114,7 @@ export const updateAccount = async (req: AuthedRequest, res: Response) => {
 
     const updatedAccount = await prisma.account.update({
       where: {
-        id: accountId,
+        id,
         userId,
       },
       data: updateData,
@@ -137,11 +137,11 @@ export const deleteAccount = async (req: AuthedRequest, res: Response) => {
   }
 
   try {
-    const { accountId } = deleteAccountSchema.parse(req.body);
+    const { id } = deleteAccountSchema.parse(req.body);
 
     const account = await prisma.account.findUnique({
       where: {
-        id: accountId,
+        id,
       },
     });
 
@@ -157,7 +157,7 @@ export const deleteAccount = async (req: AuthedRequest, res: Response) => {
 
     await prisma.account.delete({
       where: {
-        id: accountId,
+        id,
         userId,
       },
     });
