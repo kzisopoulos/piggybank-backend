@@ -13,10 +13,88 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
 model User {
   id                 String    @id @default(cuid())
   email              String    @unique
   password           String
   username           String
   createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  accounts           Account[]
+  categories         Category[]
+  transactions       Transaction[]
+  goals              Goal[]
+}
+
+
+model Account {
+  id          String         @id @default(cuid())
+  name        String
+  type        String?        // e.g. "checking", "savings"
+  currency    String?
+  user        User           @relation(fields: [userId], references: [id])
+  userId      String
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  transactions Transaction[]
+  goals        Goal[]
+}
+
+model Category {
+  id              String       @id @default(cuid())
+  name            String
+  type            TransactionType
+  user            User         @relation(fields: [userId], references: [id])
+  userId          String
+  parentCategory  Category?    @relation("Subcategories", fields: [parentCategoryId], references: [id])
+  parentCategoryId String?
+  subcategories   Category[]   @relation("Subcategories")
+
+  transactions    Transaction[]
+}
+
+model Transaction {
+  id          String        @id @default(cuid())
+  user        User          @relation(fields: [userId], references: [id])
+  userId      String
+  account     Account       @relation(fields: [accountId], references: [id])
+  accountId   String
+  category    Category?     @relation(fields: [categoryId], references: [id])
+  categoryId  String?
+  type        TransactionType
+  amount      Decimal       @db.Decimal(10, 2)
+  currency    String?
+  date        DateTime
+  description String?
+  goal        Goal?         @relation(fields: [goalId], references: [id])
+  goalId      String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([date])
+  @@index([amount])
+  @@index([description])
+}
+
+model Goal {
+  id            String   @id @default(cuid())
+  name          String
+  targetAmount  Decimal  @db.Decimal(10, 2)
+  currentAmount Decimal  @db.Decimal(10, 2) @default(0)
+  currency      String?
+  account       Account  @relation(fields: [accountId], references: [id])
+  accountId     String
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  contributions Transaction[]
 }
