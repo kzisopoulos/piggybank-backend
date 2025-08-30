@@ -17,13 +17,13 @@ const router = Router();
 // Category routes
 router.get("/", getCategories);
 router.post("/", createCategory);
-router.patch("/", updateCategory);
+router.put("/", updateCategory);
 router.delete("/", deleteCategory);
 
 // Subcategory routes
 router.get("/subcategories", getSubcategories);
 router.post("/subcategories", createSubcategory);
-router.patch("/subcategories", updateSubcategory);
+router.put("/subcategories", updateSubcategory);
 router.delete("/subcategories", deleteSubcategory);
 
 export default router;
