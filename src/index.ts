@@ -4,6 +4,7 @@ import corsOptions from "./config/cors";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes";
 import accountRoutes from "./routes/account.routes";
+import categoryRoutes from "./routes/category.routes";
 import { protect } from "./middleware/auth.middleware";
 
 const app: Express = express();
@@ -15,6 +16,7 @@ const port = process.env.PORT || 3000;
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/accounts", protect, accountRoutes);
+app.use("/api/v1/categories", protect, categoryRoutes);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
